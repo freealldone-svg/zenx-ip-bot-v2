@@ -37,7 +37,6 @@ MAIN_MENU = InlineKeyboardMarkup([
     [InlineKeyboardButton("📞 Support", callback_data="support")],
 ])
 
-
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     add_user(update.effective_user.id)
 
@@ -47,7 +46,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=MAIN_MENU,
     )
     
- async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
