@@ -69,3 +69,35 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Select an option below:",
         reply_markup=MAIN_MENU,
     )
+
+async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+
+    data = query.data
+
+    if data == "deposit":
+        await query.edit_message_text(
+            "💳 Choose your deposit method:",
+            reply_markup=DEPOSIT_MENU,
+        )
+
+    elif data == "buy_proxy":
+        await show_proxy_menu(query)
+
+    elif data == "balance":
+        await show_balance(query)
+
+    elif data == "orders":
+        await show_orders(query)
+
+    elif data == "support":
+        await query.edit_message_text(
+            f"📞 Support: @{SUPPORT_USERNAME}"
+        )
+
+    elif data == "back":
+        await query.edit_message_text(
+            "👋 Welcome back!",
+            reply_markup=MAIN_MENU,
+        )
