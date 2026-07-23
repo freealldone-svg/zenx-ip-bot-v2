@@ -52,3 +52,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Select an option below:",
         reply_markup=InlineKeyboardMarkup(keyboard),
     )
+
+MAIN_MENU = InlineKeyboardMarkup([
+    [InlineKeyboardButton("💳 Deposit", callback_data="deposit")],
+    [InlineKeyboardButton("🛒 Buy Proxy", callback_data="buy_proxy")],
+    [InlineKeyboardButton("💰 My Balance", callback_data="balance")],
+    [InlineKeyboardButton("📜 Order History", callback_data="history")],
+    [InlineKeyboardButton("📞 Support", callback_data="support")],
+])
