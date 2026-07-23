@@ -8,9 +8,7 @@ from telegram.ext import (
     Application,
     CommandHandler,
     CallbackQueryHandler,
-    MessageHandler,
     ContextTypes,
-    filters,
 )
 
 from config import *
@@ -21,6 +19,7 @@ from proxy import *
 import json
 import os
 
+
 PROXIES = {
     "owl": ("🦉 Owl IP", 9, "owl.txt"),
     "abc": ("🔵 ABC IP", 255, "abc.txt"),
@@ -30,29 +29,6 @@ PROXIES = {
 }
 
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    add_user(update.effective_user.id)
-
-    keyboard = [
-        [
-            InlineKeyboardButton("💰 My Balance", callback_data="balance"),
-            InlineKeyboardButton("🛒 Buy Proxy", callback_data="buy"),
-        ],
-        [
-            InlineKeyboardButton("💳 Deposit", callback_data="deposit"),
-            InlineKeyboardButton("📜 Order History", callback_data="history"),
-        ],
-        [
-            InlineKeyboardButton("📞 Support", callback_data="support"),
-        ],
-    ]
-
-    await update.message.reply_text(
-        "👋 Welcome to ZENX IP BOT V2\n\n"
-        "Select an option below:",
-        reply_markup=InlineKeyboardMarkup(keyboard),
-    )
-
 MAIN_MENU = InlineKeyboardMarkup([
     [InlineKeyboardButton("💳 Deposit", callback_data="deposit")],
     [InlineKeyboardButton("🛒 Buy Proxy", callback_data="buy_proxy")],
@@ -60,6 +36,7 @@ MAIN_MENU = InlineKeyboardMarkup([
     [InlineKeyboardButton("📜 Order History", callback_data="history")],
     [InlineKeyboardButton("📞 Support", callback_data="support")],
 ])
+
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     add_user(update.effective_user.id)
@@ -69,8 +46,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Select an option below:",
         reply_markup=MAIN_MENU,
     )
-
-async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
@@ -86,12 +62,12 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_proxy_menu(query)
 
     elif data.startswith("buy_"):
-    await buy_proxy(query, data.replace("buy_", ""))
-    
+        await buy_proxy(query, data.replace("buy_", ""))
+
     elif data == "balance":
         await show_balance(query)
 
-    elif data == "orders":
+    elif data == "history":
         await show_orders(query)
 
     elif data == "support":
@@ -123,8 +99,8 @@ async def show_balance(query):
         ])
     )
 
-async def show_proxy_menu(query):
 
+async def show_proxy_menu(query):
     keyboard = []
 
     for key, (name, price, filename) in PROXIES.items():
@@ -142,7 +118,7 @@ async def show_proxy_menu(query):
     await query.edit_message_text(
         "🛒 Choose a proxy:",
         reply_markup=InlineKeyboardMarkup(keyboard)
-        )
+    )
 
 async def buy_proxy(query, proxy_key):
     await query.edit_message_text(
@@ -151,11 +127,20 @@ async def buy_proxy(query, proxy_key):
             [InlineKeyboardButton("🔙 Back", callback_data="buy_proxy")]
         ])
     )
-    
+
+
+async def show_orders(query):
+    await query.edit_message_text(
+        "📜 You don't have any orders yet.",
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("🔙 Back", callback_data="back")]
+        ])
+    )
+
 app = Application.builder().token(BOT_TOKEN).build()
 
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CallbackQueryHandler(button))
 
-print("🤖 ZENX IP BOT is running...")
+print("🤖 ZENX IP BOT V2 is running...")
 app.run_polling()
