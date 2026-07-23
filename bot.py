@@ -60,3 +60,12 @@ MAIN_MENU = InlineKeyboardMarkup([
     [InlineKeyboardButton("📜 Order History", callback_data="history")],
     [InlineKeyboardButton("📞 Support", callback_data="support")],
 ])
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    add_user(update.effective_user.id)
+
+    await update.message.reply_text(
+        "👋 Welcome to ZENX IP BOT V2\n\n"
+        "Select an option below:",
+        reply_markup=MAIN_MENU,
+    )
