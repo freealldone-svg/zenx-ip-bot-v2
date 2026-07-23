@@ -85,6 +85,9 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "buy_proxy":
         await show_proxy_menu(query)
 
+    elif data.startswith("buy_"):
+    await buy_proxy(query, data.replace("buy_", ""))
+    
     elif data == "balance":
         await show_balance(query)
 
@@ -140,6 +143,14 @@ async def show_proxy_menu(query):
         "🛒 Choose a proxy:",
         reply_markup=InlineKeyboardMarkup(keyboard)
         )
+
+async def buy_proxy(query, proxy_key):
+    await query.edit_message_text(
+        f"🛒 You selected: {proxy_key}",
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("🔙 Back", callback_data="buy_proxy")]
+        ])
+    )
     
 app = Application.builder().token(BOT_TOKEN).build()
 
