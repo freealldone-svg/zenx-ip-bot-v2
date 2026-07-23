@@ -101,3 +101,11 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "👋 Welcome back!",
             reply_markup=MAIN_MENU,
         )
+
+app = Application.builder().token(BOT_TOKEN).build()
+
+app.add_handler(CommandHandler("start", start))
+app.add_handler(CallbackQueryHandler(button))
+
+print("🤖 ZENX IP BOT is running...")
+app.run_polling()
