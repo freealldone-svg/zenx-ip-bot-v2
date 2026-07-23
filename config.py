@@ -1,0 +1,10 @@
+import os
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+ADMIN_ID = 8069902198
+
+BKASH = "01945973003"
+BINANCE_UID = "1233741121"
+
+SUPPORT = "@st_support_01"
