@@ -46,6 +46,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Select an option below:",
         reply_markup=MAIN_MENU,
     )
+    
     async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
@@ -72,7 +73,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif data == "support":
         await query.edit_message_text(
-            f"📞 Support: @{SUPPORT_USERNAME}"
+            f"📞 Support: @{SUPPORT_USERNAME}",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("🔙 Back", callback_data="back")]
+            ])
         )
 
     elif data == "back":
