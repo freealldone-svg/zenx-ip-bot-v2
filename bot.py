@@ -102,6 +102,24 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=MAIN_MENU,
         )
 
+async def show_balance(query):
+    users = load_users()
+
+    user_id = str(query.from_user.id)
+
+    if user_id not in users:
+        add_user(query.from_user.id)
+        users = load_users()
+
+    balance = users[user_id]["balance"]
+
+    await query.edit_message_text(
+        f"💰 Your Balance: ৳{balance}",
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("🔙 Back", callback_data="back")]
+        ])
+    )
+    
 app = Application.builder().token(BOT_TOKEN).build()
 
 app.add_handler(CommandHandler("start", start))
