@@ -119,6 +119,27 @@ async def show_balance(query):
             [InlineKeyboardButton("🔙 Back", callback_data="back")]
         ])
     )
+
+async def show_proxy_menu(query):
+
+    keyboard = []
+
+    for key, (name, price, filename) in PROXIES.items():
+        keyboard.append([
+            InlineKeyboardButton(
+                f"{name} - ৳{price}",
+                callback_data=f"buy_{key}"
+            )
+        ])
+
+    keyboard.append([
+        InlineKeyboardButton("🔙 Back", callback_data="back")
+    ])
+
+    await query.edit_message_text(
+        "🛒 Choose a proxy:",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+        )
     
 app = Application.builder().token(BOT_TOKEN).build()
 
